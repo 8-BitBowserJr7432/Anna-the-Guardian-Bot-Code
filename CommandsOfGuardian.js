@@ -99,4 +99,57 @@ client.on(Events.InteractionCreate, async interaction => {
   }
 });
 
+// Ban command with detailed DM
+if (command === 'ban') {
+  if (!member || !member.bannable) return interaction.reply({ content: '❌ Cannot ban this user.', ephemeral: true });
+
+  try {
+    await target.send(
+      `🚫 **You have been banned from \`${interaction.guild.name}\`.**\n\n` +
+      `**Reason:** ${reason}\n\n` +
+      `If you believe this was a mistake, please contact the server moderators.`
+    );
+  } catch (err) {
+    console.log(`❗ Couldn't DM ${target.tag}`);
+  }
+
+  await member.ban({ reason });
+  return interaction.reply(`🔨 ${target.tag} has been banned. Reason: ${reason}`);
+}
+
+// Kick command with detailed DM
+if (command === 'kick') {
+  if (!member || !member.kickable) return interaction.reply({ content: '❌ Cannot kick this user.', ephemeral: true });
+
+  try {
+    await target.send(
+      `⚠️ **You have been kicked from \`${interaction.guild.name}\`.**\n\n` +
+      `**Reason:** ${reason}\n\n` +
+      `You are free to rejoin, but please follow the server rules.`
+    );
+  } catch (err) {
+    console.log(`❗ Couldn't DM ${target.tag}`);
+  }
+
+  await member.kick(reason);
+  return interaction.reply(`👢 ${target.tag} has been kicked. Reason: ${reason}`);
+}
+
+// Warn command with detailed DM
+if (command === 'warn') {
+  try {
+    await target.send(
+      `⚠️ **You have received a warning in \`${interaction.guild.name}\`.**\n\n` +
+      `**Reason:** ${reason}\n\n` +
+      `Please adhere to the server rules to avoid further actions.`
+    );
+  } catch (err) {
+    console.log(`❗ Couldn't DM ${target.tag}`);
+  }
+
+  return interaction.reply(`⚠️ ${target.tag} has been warned. Reason: ${reason}`);
+}
+
+
+
 client.login(process.env.BOT_TOKEN);
