@@ -6,13 +6,13 @@ const client = new Client({
 });
 
 client.once(Events.ClientReady, () => {
-  console.log(\`🛡️ Anna-The-Guardian is online as \${client.user.tag}\`);
+  console.log(\`Anna-The-Guardian is online as \${client.user.tag}\`);
 
   // Set bot status: online | idle | dnd | invisible
-  client.user.setStatus('online');
+  client.user.setStatus('idle');
 
   // Set activity: PLAYING, LISTENING, WATCHING, COMPETING
-  client.user.setActivity('your commands', { type: 'LISTENING' });
+  client.user.setActivity('Codded By Luis', { type: 'COMPETTING' });
 });
 
 client.login(process.env.BOT_TOKEN);
