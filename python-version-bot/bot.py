@@ -79,7 +79,7 @@ async def help(ctx):
     embed = discord.Embed(title="🌿 NatureBot Help", description="Watching nature and moderating.", color=discord.Color.green())
     embed.add_field(name="General", value="`ping`, `serverinfo`, `userinfo`, `avatar`, `uptime`, `invite`, `poll`, `8ball`, `roll`, `coinflip`, `slap`, `hug`, `pat`, `kiss`, `ship`")
     embed.add_field(name="Moderation", value="`kick`, `ban`, `unban`, `softban`, `timeout`, `untimeout`, `purge`, `nuke`, `lock`, `unlock`, `slowmode`, `nick`, `addrole`, `removerole`, `warn`, `warnings`, `clearwarns`, `announce`, `dm`, `say`")
-    embed.add_field(name="Cool/Custom", value="`hack`, `emojify`, `spoiler`, `reverse`, `mock`, `vaporwave`, `binary`, `morse`, `piglatin`, `advice`, `truth`, `dare`, `joke`, `iq`, `remindme`")
+    embed.add_field(name="Cool/Custom", value="`m`, `emojify`, `spoiler`, `reverse`, `mock`, `vaporwave`, `binary`, `morse`, `piglatin`, `advice`, `truth`, `dare`, `joke`, `iq`, `remindme`")
     await ctx.send(embed=embed)
 
 @bot.command()
@@ -317,17 +317,12 @@ async def say(ctx, *, message):
 # ==============================================================================
 
 @bot.command()
-async def hack(ctx, member: discord.Member):
+async def lmsmsms(ctx, member: discord.Member):
     """Fake hack animation"""
-    msg = await ctx.send(f"💻 Hacking **{member.name}**...")
+    msg = await ctx.send(f"💻  **{member.name}**...")
     await asyncio.sleep(1)
     await msg.edit(content="...Fetching IP address... [192.168.0.1]")
     await asyncio.sleep(1)
-    await msg.edit(content="...Stealing cookie recipe...")
-    await asyncio.sleep(1)
-    await msg.edit(content="...Downloading embarrassing photos...")
-    await asyncio.sleep(1)
-    await msg.edit(content=f"✅ HACK COMPLETE! **{member.name}** has been totally hacked forever and getting motered by me . (jk).")
 
 @bot.command()
 async def emojify(ctx, *, text):
