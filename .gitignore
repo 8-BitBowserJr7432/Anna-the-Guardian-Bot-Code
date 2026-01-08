@@ -5,3 +5,4 @@ logs
 Thumbs.db
 coverage/
 .venv/
+python-version-bot/venv
