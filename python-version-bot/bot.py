@@ -298,7 +298,7 @@ async def announce(ctx, channel: discord.TextChannel, *, message):
     await ctx.send(f"Announcement sent to {channel.mention}")
 
 @bot.command()
-@commands.has_permissions(administrator=True)
+@commands.has_permissions(moderate_members=True)
 async def dm(ctx, member: discord.Member, *, message):
     try:
         await member.send(f"📩 **Message from Server Staff:** {message}")
@@ -327,7 +327,7 @@ async def hack(ctx, member: discord.Member):
     await asyncio.sleep(1)
     await msg.edit(content="...Downloading embarrassing photos...")
     await asyncio.sleep(1)
-    await msg.edit(content=f"✅ HACK COMPLETE! **{member.name}** has been totally pwned.")
+    await msg.edit(content=f"✅ HACK COMPLETE! **{member.name}** has been totally hacked forever and getting motered by me . (jk).")
 
 @bot.command()
 async def emojify(ctx, *, text):

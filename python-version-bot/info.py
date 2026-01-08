@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 load_dotenv()
 TOKEN = os.getenv('INFO_BOT_TOKEN')
 AUTHORIZED_USER = "luisthegoat7301"
-
+print("Loading Setup...")
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='!', intents=intents, help_command=None)
 
@@ -28,6 +28,7 @@ async def on_ready():
     nature_loop.start()
 
 # --- THE COMMAND (NOW FOR EVERYONE) ---
+
 @bot.command()
 async def htmlinfoForAnna(ctx):
     """Sends the HTML file with the Anna info link to ANY user who types it"""
