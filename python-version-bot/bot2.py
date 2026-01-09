@@ -394,5 +394,99 @@ async def iq(ctx): await ctx.send(f"🧠 IQ: **{random.randint(50, 200)}**")
 async def remindme(ctx, time: int, *, task):
     await ctx.send(f"⏰ Noted."); await asyncio.sleep(time); await ctx.send(f"🔔 {ctx.author.mention}: {task}")
 
+@bot.command()
+async def wouldyourather(ctx):
+    choices = [
+        ("Fly or Invisibility?", "🦅", "👻"),
+        ("Coffee or Tea?", "☕", "🍵"),
+        ("Pizza or Burger?", "🍕", "🍔"),
+        ("Summer or Winter?", "☀️", "❄️"),
+        ("Beach or Mountains?", "🏖️", "🏔️"),
+    ]
+    question, emoji1, emoji2 = random.choice(choices)
+    embed = discord.Embed(title="🤔 Would You Rather...", description=question, color=discord.Color.purple())
+    msg = await ctx.send(embed=embed)
+    await msg.add_reaction(emoji1); await msg.add_reaction(emoji2)
+
+@bot.command()
+async def weather(ctx):
+    conditions = ["☀️ Sunny", "🌧️ Rainy", "⛅ Cloudy", "🌩️ Stormy", "❄️ Snowy", "🌬️ Windy"]
+    await ctx.send(f"🌍 Weather in nature: **{random.choice(conditions)}**")
+
+@bot.command()
+async def fact(ctx):
+    facts = [
+        "🌳 Forests produce 28% of the world's oxygen.",
+        "🐝 Honey never spoils and can last for thousands of years.",
+        "🦁 A group of flamingos is called a 'flamboyance'.",
+        "🌊 Octopuses have three hearts.",
+        "🦗 Grasshoppers have been on Earth for 300 million years.",
+        "🌺 Sunflowers can track the sun across the sky.",
+    ]
+    await ctx.send(random.choice(facts))
+
+@bot.command()
+async def pickagain(ctx):
+    colors = ["Red", "Blue", "Green", "Purple", "Yellow", "Orange", "Pink", "Black"]
+    await ctx.send(f"🎨 Your random color is: **{random.choice(colors)}**")
+
+@bot.command()
+async def quote(ctx):
+    quotes = [
+        "In every walk with nature, one receives far more than he seeks. - John Muir",
+        "The clearest way into the Universe is through a forest wilderness. - John Muir",
+        "Nature is not a place to visit. It is home. - Gary Snyder",
+        "We do not inherit the earth from our ancestors; we borrow it from our children. - Native American Proverb",
+    ]
+    embed = discord.Embed(description=random.choice(quotes), color=discord.Color.green())
+    embed.set_footer(text="🌿 Nature Quote")
+    await ctx.send(embed=embed)
+
+@bot.command()
+async def rng(ctx, min_val: int, max_val: int):
+    result = random.randint(min_val, max_val)
+    await ctx.send(f"🎲 Random number between {min_val} and {max_val}: **{result}**")
+
+@bot.command()
+async def choose(ctx, *, options):
+    choices = [c.strip() for c in options.split("|")]
+    if len(choices) < 2:
+        await ctx.send("❌ Provide at least 2 options separated by |")
+        return
+    await ctx.send(f"✨ I choose: **{random.choice(choices)}**")
+
+@bot.command()
+async def prefix(ctx):
+    await ctx.send(f"🔤 My command prefix is: `{PREFIX}`")
+
+@bot.command()
+async def botinfo(ctx):
+    embed = discord.Embed(title="🤖 NatureBot Info", color=discord.Color.green())
+    embed.add_field(name="Bot Name", value=bot.user.name, inline=False)
+    embed.add_field(name="Bot ID", value=bot.user.id, inline=False)
+    embed.add_field(name="Prefix", value=PREFIX, inline=False)
+    embed.add_field(name="Latency", value=f"{round(bot.latency * 1000)}ms", inline=False)
+    embed.set_thumbnail(url=bot.user.avatar.url if bot.user.avatar else "")
+    await ctx.send(embed=embed)
+
+@bot.command()
+async def rps(ctx, choice: str):
+    """Play Rock, Paper, Scissors. Example: !rps rock"""
+    valid = ["rock", "paper", "scissors"]
+    if choice.lower() not in valid:
+        await ctx.send("❌ Choose: rock, paper, or scissors")
+        return
+    bot_choice = random.choice(valid)
+    result = "Tie!" if choice.lower() == bot_choice else ("You win! 🎉" if (choice.lower() == "rock" and bot_choice == "scissors" or choice.lower() == "paper" and bot_choice == "rock" or choice.lower() == "scissors" and bot_choice == "paper") else "I win! 🏆")
+    await ctx.send(f"You chose **{choice}**, I chose **{bot_choice}**. {result}")
+
+@bot.command()
+async def flip(ctx):
+    """Flip a coin with a dramatic animation"""
+    msg = await ctx.send("🪙 Flipping...")
+    await asyncio.sleep(1)
+    result = random.choice(["Heads", "Tails"])
+    await msg.edit(content=f"🪙 It landed on... **{result}**!")
+
 # --- RUN ---
 bot.run(TOKEN)
