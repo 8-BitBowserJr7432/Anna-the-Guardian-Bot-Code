@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Anna — The Guardian Bot (Demo)</title>
+  <meta name="description" content="Anna — The Guardian Bot: demo web page with README and license included." />
+  <style>
+    :root{
+      --bg1: linear-gradient(135deg,#0f172a 0%, #0b3a6b 50%, #0b2440 100%);
+      --glass: rgba(255,255,255,0.06);
+      --accent: #7dd3fc;
+      --glass-2: rgba(255,255,255,0.03);
+      --radius: 18px;
+      --mono: 'Segoe UI Mono', SFMono-Regular, Menlo, Monaco, monospace;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial}
+    body{
+      background: var(--bg1);
+      color:#e6eef8;
+      -webkit-font-smoothing:antialiased;
+      display:flex;align-items:center;justify-content:center;padding:40px;
+    }
+    .stage{width:1100px;max-width:100%;display:grid;grid-template-columns:420px 1fr;gap:28px}
+
+    /* Card */
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius: var(--radius);
+      padding:20px;border:1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+    }
+
+    .panel-left{display:flex;flex-direction:column;gap:16px}
+    .logo{display:flex;gap:12px;align-items:center}
+    .logo svg{width:56px;height:56px;flex-shrink:0}
+    h1{margin:0;font-size:20px}
+    .subtitle{color:rgba(230,238,248,0.7);font-size:13px}
+
+    .status{display:flex;gap:8px;align-items:center;margin-top:8px}
+    .pill{background:var(--glass);padding:8px 10px;border-radius:999px;font-size:13px}
+
+    .controls{display:flex;gap:10px;margin-top:6px}
+    button.btn{background:linear-gradient(90deg,var(--accent),#4f46e5);border:none;padding:10px 12px;border-radius:10px;color:#032;cursor:pointer;font-weight:600}
+    button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:inherit;padding:8px 10px;border-radius:10px}
+
+    /* Demo chat */
+    .chat{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));padding:14px;border-radius:14px;display:flex;flex-direction:column;height:480px}
+    .messages{flex:1;overflow:auto;padding-right:6px;display:flex;flex-direction:column;gap:12px}
+    .msg{max-width:78%;padding:12px;border-radius:12px;background:var(--glass-2);font-size:14px}
+    .msg.bot{align-self:flex-start;background:linear-gradient(90deg, rgba(125,211,252,0.08), rgba(79,70,229,0.05));border:1px solid rgba(125,211,252,0.07)}
+    .msg.me{align-self:flex-end;background:rgba(255,255,255,0.03)}
+
+    .input-row{display:flex;gap:10px;margin-top:12px}
+    .input-row input{flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+
+    /* Right column */
+    .panel-right{display:flex;flex-direction:column;gap:16px}
+    .meta{display:flex;justify-content:space-between;align-items:center}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+    pre.readme{background:rgba(0,0,0,0.18);padding:14px;border-radius:10px;height:260px;overflow:auto;font-family:var(--mono);font-size:12px}
+
+    footer.small{font-size:12px;color:rgba(230,238,248,0.65);display:flex;justify-content:space-between;align-items:center}
+
+    .download-row{display:flex;gap:8px;flex-wrap:wrap}
+    .small-tag{background:rgba(255,255,255,0.03);padding:6px 8px;border-radius:8px;font-size:12px}
+
+    /* Responsiveness */
+    @media (max-width:980px){.stage{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <div class="card panel-left">
+      <div class="logo">
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="12" fill="#06243A"/><path d="M32 12c-9.94 0-18 8.06-18 18s8.06 18 18 18 18-8.06 18-18S41.94 12 32 12z" fill="#0B5A8C" opacity="0.95"/><path d="M32 18a14 14 0 100 28 14 14 0 000-28z" fill="#07293B"/><path d="M26 30c0-3.314 2.686-6 6-6s6 2.686 6 6-2.686 6-6 6-6-2.686-6-6z" fill="#7DD3FC"/></svg>
+        <div>
+          <h1>Anna — The Guardian Bot</h1>
+          <div class="subtitle">Friendly guardian, server-helper and moderation sidekick.</div>
+        </div>
+      </div>
+
+      <div class="status">
+        <span class="pill">Status: <strong>Online</strong></span>
+        <span class="pill">Prefix: <strong>!</strong></span>
+        <span class="pill">Slash: <strong>Enabled</strong></span>
+      </div>
+
+      <div class="controls">
+        <button class="btn" id="btn-sim">Simulate Guard</button>
+        <button class="ghost" id="btn-read">Open README</button>
+        <button class="ghost" id="btn-license">License</button>
+      </div>
+
+      <div class="chat" aria-live="polite">
+        <div class="messages" id="messages">
+          <div class="msg bot">Hello — I'm Anna. I watch over the server and keep things tidy. Try typing <code>!help</code>.</div>
+        </div>
+
+        <div class="input-row">
+          <input id="msg-input" placeholder="Type a command: !ban @user or !help" />
+          <button class="btn" id="send">Send</button>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;margin-top:12px;align-items:center">
+        <div class="small-tag">v1.0.0</div>
+        <div style="display:flex;gap:8px">
+          <button class="ghost" id="download-read">Download README.md</button>
+          <button class="ghost" id="download-license">Download LICENSE</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card panel-right">
+      <div class="meta">
+        <div>
+          <strong>Project Files inside this page</strong>
+          <div class="subtitle">README.md — LICENSE — index.html (this demo)</div>
+        </div>
+        <div class="small-tag">Open-source</div>
+      </div>
+
+      <div class="grid">
+        <div style="grid-column:1/3">
+          <label style="display:block;margin-bottom:8px">README.md preview</label>
+          <pre class="readme" id="readme-preview"></pre>
+        </div>
+
+        <div>
+          <label style="display:block;margin-bottom:8px">Quick Commands</label>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div class="small-tag">!help — Show help</div>
+            <div class="small-tag">!warn @user [reason] — Issue a warning</div>
+            <div class="small-tag">!modlog — Export moderation log</div>
+            <div class="small-tag">!guard toggle — Toggle auto-guard</div>
+            <div class="small-tag">/setup — Slash command setup wizard</div>
+          </div>
+        </div>
+
+        <div>
+          <label style="display:block;margin-bottom:8px">Credits</label>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div class="small-tag">Author: Anna Labs</div>
+            <div class="small-tag">Designer: Luis</div>
+            <div class="small-tag">Demo: ChatGPT-generated</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px">
+        <strong>Other stuff</strong>
+        <p style="margin:6px 0;color:rgba(230,238,248,0.7)">Inside: full README, MIT license (copy included), quick start and a tiny demo interface that simulates chat and lets you download the README and LICENSE files.</p>
+      </div>
+
+      <footer class="small" style="margin-top:auto">
+        <div>Made for <strong>Anna</strong> — Keep it safe, keep it fun.</div>
+        <div>•</div>
+        <div>Share and remix under the license.</div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- README and LICENSE as JS strings so they can be downloaded and previewed -->
+  <script>
+    const README = `# Anna — The Guardian Bot\n\nAnna is a friendly Discord guardian bot designed to help small-to-medium communities moderate, automate, and protect. This demo is a single-file web preview that contains README.md and LICENSE text you can download.\n\n## Features\n- Moderation: warn, kick, ban, softmute.\n- Auto-guard: detects raid-like behavior and rate-limits new joiners.\n- Logging: stores moderation actions for review.\n- Slash commands + legacy prefix (!) support.\n- Configurable welcome and leave messages.\n\n## Quick start (developer)\n1. Copy the bot code from the repo into your project.\n2. Create a .env file with: \n   - DISCORD_TOKEN=your_token\n   - PREFIX=!\n   - MONGO_URI=your_mongo_uri (optional)\n3. Install dependencies (node 18+):\n   \n   npm install discord.js dotenv mongoose\n\n4. Run: \n   node index.js\n\n## Commands (examples)\n- \`!help\` — Show help menu.\n- \`!warn @user reason\` — Add a warning.\n- \`!modlog\` — Export moderation log (CSV).\n- \`!guard enable\` — Enable auto-guard.\n- \`/setup\` — Run interactive setup (slash).\n\n## Security notes\n- Never publish your bot token. Use environment variables or a secrets manager.\n- Consider role-based permissions for moderation commands.\n\n## Customization\nEdit the config file to change prefixes, welcome messages, and thresholds for the auto-guard.\n\n## Troubleshooting\nIf the bot doesn't connect, check the token and the gateway intents (GUILD_MEMBERS if you need member join events).\n\n---\n\nFor full code and examples, host this demo with the real repo files.\n`;
+
+    const LICENSE = `MIT License\n\nCopyright (c) 2026 Anna Labs\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the "Software"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and\/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n`;
+
+    // Fill the preview
+    document.getElementById('readme-preview').textContent = README;
+
+    // Simple messaging simulation
+    const messagesEl = document.getElementById('messages');
+    const input = document.getElementById('msg-input');
+    const sendBtn = document.getElementById('send');
+
+    function appendMessage(text, cls='bot'){
+      const d = document.createElement('div');
+      d.className = 'msg ' + (cls==='me' ? 'me' : 'bot');
+      d.innerHTML = text.replace(/\n/g,'<br>');
+      messagesEl.appendChild(d);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    sendBtn.addEventListener('click', ()=>{
+      const v = input.value.trim();
+      if(!v) return;
+      const userMsg = document.createElement('div');
+      userMsg.className = 'msg me';
+      userMsg.textContent = v;
+      messagesEl.appendChild(userMsg);
+      input.value = '';
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+
+      // Quick pseudo-response rules
+      setTimeout(()=>{
+        if(v.startsWith('!help')){
+          appendMessage('<strong>Anna Help</strong><br>Commands: !help, !warn, !ban, !modlog, !guard toggle');
+        } else if(v.startsWith('!warn')){
+          appendMessage('User warned. Check the moderation log.');
+        } else if(v.includes('raid') || v.includes('spam')){
+          appendMessage('Auto-guard triggered — new-join rate-limits enabled.');
+        } else if(v.startsWith('!ban')){
+          appendMessage('User banned. Reason: ' + (v.split(' ').slice(2).join(' ') || 'No reason provided'));
+        } else {
+          appendMessage('I did not understand that command. Try <code>!help</code>.');
+        }
+      }, 650);
+    });
+
+    // Simulate guard button
+    document.getElementById('btn-sim').addEventListener('click', ()=>{
+      appendMessage('<strong>System:</strong> Multiple join events detected — point-defense activated.');
+      setTimeout(()=>appendMessage('Block rules enforced: 1 new-join/10s, extra captcha enforced.'),800);
+    });
+
+    // Preview / modals
+    document.getElementById('btn-read').addEventListener('click', ()=>{
+      alert('README preview is visible on the right — you can download it as README.md.');
+    });
+    document.getElementById('btn-license').addEventListener('click', ()=>{
+      alert('License: MIT — click Download LICENSE to save a copy.');
+    });
+
+    // Download helpers
+    function downloadText(filename, text){
+      const blob = new Blob([text], {type:'text/plain'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url), 5000);
+    }
+
+    document.getElementById('download-read').addEventListener('click', ()=>downloadText('README.md', README));
+    document.getElementById('download-license').addEventListener('click', ()=>downloadText('LICENSE', LICENSE));
+
+    // Also provide download via lower-left shortcuts
+    document.getElementById('download-license').addEventListener('click', ()=>console.log('License downloaded'));
+
+    // Keyboard: Enter to send
+    input.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') sendBtn.click(); });
+
+    // Accessibility: focus input on load
+    window.addEventListener('load', ()=> input.focus());
+  </script>
+</body>
+</html>

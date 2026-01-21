@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Anna — Guardian of Nature</title>
+  <meta name="description" content="A small, elegant landing page — animated, responsive, and fast." />
+  <style>
+    :root{--bg1:#0f172a;--bg2:#0b1223;--accent:#7c3aed;--muted:#9aa4b2}
+    *{box-sizing:border-box}html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial}
+    body{background:linear-gradient(135deg,var(--bg1),var(--bg2));color:#e6eef8;display:flex;align-items:center;justify-content:center;padding:32px}
+    .card{width:100%;max-width:980px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border-radius:14px;box-shadow:0 10px 30px rgba(2,6,23,0.6);overflow:hidden;display:grid;grid-template-columns:1fr 420px}
+    @media(max-width:900px){.card{grid-template-columns:1fr;gap:0}}
+    .left{padding:44px}
+    h1{margin:0 0 10px 0;font-size:clamp(28px,3.6vw,44px);line-height:1.03}
+    p.lead{margin:0 0 22px 0;color:var(--muted);font-size:15px}
+    .cta{display:flex;gap:12px;margin-top:18px}
+    .btn{background:linear-gradient(90deg,var(--accent),#4f46e5);border:0;padding:10px 16px;border-radius:10px;color:white;cursor:pointer;font-weight:600;box-shadow:0 6px 18px rgba(124,58,237,0.14)}
+    .ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#dbeafe;padding:8px 14px;border-radius:10px}
+    .features{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:24px}
+    .feature{background:rgba(255,255,255,0.01);padding:10px;border-radius:10px;font-size:14px;color:var(--muted)}
+    .right{background-image:radial-gradient(circle at 10% 10%,rgba(124,58,237,0.08),transparent 8%),url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><rect width="100%" height="100%" fill="%230b1223"/></svg>');padding:28px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+    .hero-preview{width:100%;height:260px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.85);font-weight:600}
+    .muted{color:var(--muted);font-size:13px}
+    footer{padding:18px;text-align:center;color:var(--muted);font-size:13px}
+    .pulse{position:relative}
+    .pulse::after{content:'';position:absolute;inset:10px;border-radius:8px;box-shadow:0 0 50px rgba(124,58,237,0.12);animation:pulse 3s infinite}
+    @keyframes pulse{0%{opacity:0.2;transform:scale(0.98)}50%{opacity:0.6;transform:scale(1)}100%{opacity:0.2;transform:scale(0.98)}}
+    .topbar{display:flex;gap:10px;align-items:center;margin-bottom:18px}
+    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#34d399,#3b82f6);display:flex;align-items:center;justify-content:center;font-weight:700;color:#052f2e}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="left">
+      <div class="topbar">
+        <div class="logo">A</div>
+        <div>
+          <div style="font-weight:700">Anna — Guardian</div>
+          <div style="font-size:12px;color:var(--muted)">Nature protection & friendly moderation</div>
+        </div>
+      </div>
+      <h1>Watching the forest, one friendly bot at a time</h1>
+      <p class="lead">A lightweight Discord helper focused on community safety and nature-themed fun. Fast, friendly, and privacy-respecting.</p>
+      <div class="cta">
+        <button class="btn" onclick="showDemo()">View Demo</button>
+        <button class="ghost" onclick="toggleTheme()">Toggle Theme</button>
+      </div>
+
+      <div class="features">
+        <div class="feature">🌲 Auto-moderation tools</div>
+        <div class="feature">🤖 Friendly commands & games</div>
+        <div class="feature">🔒 Permission-safe operations</div>
+        <div class="feature">⚡ Lightweight & efficient</div>
+      </div>
+    </div>
+    <div class="right">
+      <div class="hero-preview pulse" id="preview">Live preview: NatureBot</div>
+      <div class="muted">Click "View Demo" to animate the preview. Use "Toggle Theme" for a visual change.</div>
+    </div>
+  </div>
+  <footer>Made with 🌿 — <span id="year"></span></footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    function showDemo(){
+      const el = document.getElementById('preview');
+      el.textContent = '🌅 Sunset — status: active';
+      el.style.transition = 'transform .6s ease';
+      el.style.transform = 'translateY(-6px) scale(1.02)';
+      setTimeout(()=>{el.style.transform='none';el.textContent='Live preview: NatureBot'},2500);
+    }
+    function toggleTheme(){
+      const r=document.documentElement;
+      if(r.style.getPropertyValue('--bg1')===''){
+        r.style.setProperty('--bg1','#fff');r.style.setProperty('--bg2','#f7fafc');r.style.setProperty('--accent','#0ea5a4');r.style.setProperty('--muted','#475569');document.body.style.color='#071033'
+      } else {
+        r.style.setProperty('--bg1','');r.style.setProperty('--bg2','');r.style.setProperty('--accent','');r.style.setProperty('--muted','');document.body.style.color=''
+      }
+    }
+  </script>
+</body>
+</html>
