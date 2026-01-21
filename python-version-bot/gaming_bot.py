@@ -396,4 +396,4 @@ async def deleteCA(ctx, *, category_name: str):
 
 
 # REPLACE 'YOUR_TOKEN_HERE' WITH YOUR ACTUAL BOT TOKEN
-bot.run('MTM4NzQyODEyNDkyNDQ0NDc5Mw.GK3qb3.2fYynXubpOp9HkawCOCXv9Sj1rXgNxrTeeZTY0')
+bot.run('token')
