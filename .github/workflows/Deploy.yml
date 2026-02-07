@@ -1,10 +1,9 @@
-name: Deploy to GitHub Pages
+name: 🚀 Deploy to 8-BitBowser7432 🌍
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 permissions:
   contents: read
@@ -12,45 +11,28 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: true
 
 jobs:
-  build:
+  deploy:
+    name: 📦 Build & Deploy (No NPM 😎)
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: 📥 Checkout Repo
         uses: actions/checkout@v4
 
-      # 🔧 OPTIONAL: setup Node.js (remove if not needed)
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+      - name: 🧪 List Files (Debug 👀)
+        run: ls -la
 
-      # 🔧 OPTIONAL: install deps (remove if not needed)
-      - name: Install dependencies
-        run: npm install
+      - name: ⚙️ Setup Pages
+        uses: actions/configure-pages@v5
 
-      # 🔧 BUILD STEP (THIS CREATES THE ARTIFACT)
-      - name: Build
-        run: npm run build
-        # output folder example: dist / build / public
-
-      - name: Upload Pages artifact
+      - name: 📤 Upload Site Files
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist   # 👈 change if your build folder is different
+          path: .
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - name: 🚀 Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
